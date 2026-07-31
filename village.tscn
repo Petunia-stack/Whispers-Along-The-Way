@@ -1,0 +1,107 @@
+[gd_scene format=3 uid="uid://iblf828cd4t5"]
+
+[ext_resource type="Texture2D" uid="uid://bfrwe3r31yttj" path="res://icon.svg" id="1_e5asd"]
+[ext_resource type="Script" uid="uid://cj5uxtqc3u07o" path="res://scripts/player.gd" id="1_eexne"]
+[ext_resource type="Script" uid="uid://dhfoull3vaw1k" path="res://scripts/village.gd" id="1_pldg8"]
+[ext_resource type="Script" uid="uid://do5sii821ruqc" path="res://scripts/npc.gd" id="3_0xiww"]
+[ext_resource type="Script" uid="uid://duaty8fiiwi5t" path="res://scripts/dialogue_manager.gd" id="4_1oqlt"]
+[ext_resource type="PackedScene" uid="uid://b36onrhuo7xry" path="res://scenes/apple.tscn" id="6_mv8fa"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ib4dr"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ib4dr"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1mxes"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_1oqlt"]
+
+[node name="Village" type="Node2D" unique_id=1310036798]
+script = ExtResource("1_pldg8")
+
+[node name="Player" type="CharacterBody2D" parent="." unique_id=1906981620]
+position = Vector2(400, 300)
+script = ExtResource("1_eexne")
+
+[node name="Sprite2D" type="Sprite2D" parent="Player" unique_id=1738599137]
+position = Vector2(0, 3)
+scale = Vector2(2, 2)
+texture = ExtResource("1_e5asd")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=1225891955]
+shape = SubResource("CircleShape2D_ib4dr")
+
+[node name="NPC" type="CharacterBody2D" parent="." unique_id=1125234501]
+position = Vector2(450, 300)
+script = ExtResource("3_0xiww")
+
+[node name="Sprite2D" type="Sprite2D" parent="NPC" unique_id=1736523283]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="NPC" unique_id=631829260]
+position = Vector2(32, 32)
+shape = SubResource("RectangleShape2D_ib4dr")
+
+[node name="Area2D" type="Area2D" parent="NPC" unique_id=1011429943]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="NPC/Area2D" unique_id=1942748342]
+position = Vector2(80, 80)
+shape = SubResource("RectangleShape2D_1mxes")
+
+[node name="DialogueManager" type="Node2D" parent="." unique_id=136581475]
+script = ExtResource("4_1oqlt")
+
+[node name="Panel" type="Panel" parent="." unique_id=2105314130]
+visible = false
+offset_left = 560.0
+offset_top = 174.0
+offset_right = 1160.0
+offset_bottom = 374.0
+
+[node name="DialogueText" type="Label" parent="Panel" unique_id=2049396858]
+custom_minimum_size = Vector2(500, 150)
+layout_mode = 0
+offset_left = 20.0
+offset_top = 58.0
+offset_right = 520.0
+offset_bottom = 208.0
+theme_override_font_sizes/font_size = 32
+text = "Isaiah 43:18-19
+
+Do not call to mind the former things; pay no attention to the things of old.
+Behold, I am about to do something new; even now it is coming."
+label_settings = SubResource("LabelSettings_1oqlt")
+autowrap_mode = 2
+
+[node name="TheGuide" type="Label" parent="Panel" unique_id=159097327]
+layout_mode = 0
+offset_left = 9.0
+offset_top = 10.0
+offset_right = 165.0
+offset_bottom = 55.0
+theme_override_font_sizes/font_size = 32
+text = "The Guide"
+
+[node name="QuestPanel" type="Panel" parent="." unique_id=57163680]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="QuestText" type="Label" parent="QuestPanel" unique_id=516877342]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Current Quest:
+None"
+
+[node name="HTTPRequest" type="HTTPRequest" parent="." unique_id=703920079]
+
+[node name="Apple" parent="." unique_id=62150944 instance=ExtResource("6_mv8fa")]
+position = Vector2(1051, 374)
+
+[node name="Apple2" parent="." unique_id=276002830 instance=ExtResource("6_mv8fa")]
+position = Vector2(725, 468)
+
+[node name="Apple3" parent="." unique_id=892313333 instance=ExtResource("6_mv8fa")]
+position = Vector2(918, 174)
+
+[connection signal="body_entered" from="NPC/Area2D" to="NPC" method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="NPC/Area2D" to="NPC" method="_on_area_2d_body_exited"]
+[connection signal="request_completed" from="HTTPRequest" to="." method="_on_http_request_request_completed"]
